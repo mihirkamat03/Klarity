@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klarity | Reflection</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* REFLECTION SPECIFIC STYLES */
+        body {
+            background: #020205;
+            overflow-x: hidden;
+        }
+
+        .pool-container {
+            position: relative;
+            min-height: 100vh;
+            padding: 100px 20px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 1. HEADER */
+        .pool-header {
+            text-align: center;
+            margin-bottom: 40px;
+            z-index: 2;
+        }
+
+        .pool-header h1 {
+            font-size: 50px;
+            margin: 0;
+            background: linear-gradient(to bottom, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pool-header p {
+            color: #888;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        /* 2. THE POOL (Visualizer) */
+        .the-pool {
+            width: 100%;
+            max-width: 900px;
+            height: 400px;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #05050a 70%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+            margin-bottom: 50px;
+        }
+
+        /* Water Ripples (CSS Only) */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(90, 128, 255, 0.2);
+            animation: rippleAnim 4s infinite linear;
+            pointer-events: none;
+        }
+
+        @keyframes rippleAnim {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 0.5;
+            }
+
+            100% {
+                width: 400px;
+                height: 400px;
+                opacity: 0;
+            }
+        }
+
+        /* Floating Memories (Completed Tasks) */
+        .lotus {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            animation: bob 3s infinite ease-in-out alternate;
+            filter: drop-shadow(0 0 10px var(--primary));
+        }
+
+        .lotus::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            opacity: 0.2;
+            filter: blur(10px);
+            border-radius: 50%;
+        }
+
+        .lotus:hover {
+            transform: scale(1.2);
+            z-index: 10;
+        }
+
+        /* Tooltip */
+        .lotus-tooltip {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 10, 15, 0.9);
+            border: 1px solid #333;
+            padding: 10px 15px;
+            border-radius: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            color: white;
+            font-size: 12px;
+        }
+
+        .lotus:hover .lotus-tooltip {
+            opacity: 1;
+            bottom: 60px;
+        }
+
+        /* 3. INSIGHT CARDS */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .insight-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .insight-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card-icon {
+            font-size: 30px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .card-stat {
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .card-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .wide-card {
+            grid-column: span 3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .graph-line {
+            flex-grow: 1;
+            height: 2px;
+            background: #333;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .graph-point {
+            position: absolute;
+            top: -4px;
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Nav Back */
+        .nav-back {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: #555;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .nav-back:hover {
+            color: white;
+        }
+
+        @keyframes bob {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="aurora-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2" style="bottom: auto; top: 20%;"></div>
+        <div class="noise-overlay"></div>
+    </div>
+
+    
+    <div class="pool-container">
+        <a href="index.html" class="nav-back">← DASHBOARD</a>
+
+        <div class="pool-header">
+            <h1>The Reflection Pool</h1>
+            <p>Your accomplishments, floating in time.</p>
+        </div>
+
+        <div class="the-pool" id="poolSurface">
+            <div class="ripple" style="top: 20%; left: 30%;"></div>
+            <div class="ripple" style="top: 60%; left: 70%; animation-delay: 1s;"></div>
+        </div>
+
+        <div class="insight-grid">
+            <div class="insight-card">
+                <span class="card-icon">🔥</span>
+                <span class="card-stat">4 Days</span>
+                <span class="card-label">Current Flow Streak</span>
+            </div>
+            <div class="insight-card">
+                <span class="card-icon">💎</span>
+                <span class="card-stat">1,250</span>
+                <span class="card-label">Total Dopamine XP</span>
+            </div>
+            <div class="insight-card">
+                <span class="card-icon">🧠</span>
+                <span class="card-stat">10 AM</span>
+                <span class="card-label">Peak Focus Hour</span>
+            </div>
+
+            <div class="insight-card wide-card">
+                <div>
+                    <span class="card-label">Relationship Heatmap</span>
+                    <p style="color: #666; font-size: 12px; margin: 5px 0;">People you collaborate with most.</p>
+                </div>
+
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div style="text-align: center;">
+                        <div
+                            style="width: 40px; height: 40px; background: #FF0055; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                            SJ</div>
+                        <span style="font-size: 10px; color: #888; display: block; margin-top: 5px;">Sarah</span>
+                    </div>
+                    <div style="text-align: center;">
+                        <div
+                            style="width: 40px; height: 40px; background: #5A80FF; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                            DK</div>
+                        <span style="font-size: 10px; color: #888; display: block; margin-top: 5px;">David</span>
+                    </div>
+                    <div style="text-align: center; opacity: 0.5;">
+                        <div
+                            style="width: 40px; height: 40px; background: #333; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                            +5</div>
+                        <span style="font-size: 10px; color: #888; display: block; margin-top: 5px;">Others</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // MOCK COMPLETED TASKS
+        const memories = [
+            { title: "Physics Lab", xp: 50, color: "#5A80FF" },
+            { title: "Math Quiz", xp: 30, color: "#00FFE0" },
+            { title: "Read Chapter 4", xp: 20, color: "#FF0055" },
+            { title: "Email Prof", xp: 10, color: "#5A80FF" },
+            { title: "Design UI", xp: 100, color: "#FFD700" }, // Gold
+        ];
+
+        const pool = document.getElementById('poolSurface');
+
+        memories.forEach((mem, i) => {
+            const lotus = document.createElement('div');
+            lotus.classList.add('lotus');
+            lotus.innerHTML = "🌷"; // Lotus Emoji
+
+            // Random placement in pool
+            const x = Math.random() * 80 + 10;
+            const y = Math.random() * 60 + 20;
+            lotus.style.left = x + '%';
+            lotus.style.top = y + '%';
+            lotus.style.animationDelay = (i * 0.5) + 's';
+
+            // Custom Color Glow
+            lotus.style.setProperty('--primary', mem.color);
+
+            // Tooltip
+            const tooltip = document.createElement('div');
+            tooltip.classList.add('lotus-tooltip');
+            tooltip.innerHTML = `<b>${mem.title}</b><br>+${mem.xp} XP`;
+
+            lotus.appendChild(tooltip);
+            pool.appendChild(lotus);
+        });
+
+        // Interactive Ripple on Click
+        pool.addEventListener('click', (e) => {
+            const rect = pool.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const ripple = document.createElement('div');
+            ripple.classList.add('ripple');
+            ripple.style.left = (x - 10) + 'px'; // Center it roughly
+            ripple.style.top = (y - 10) + 'px';
+            ripple.style.width = '20px';
+            ripple.style.height = '20px';
+            ripple.style.animation = 'rippleAnim 2s linear forwards';
+
+            pool.appendChild(ripple);
+
+            setTimeout(() => ripple.remove(), 2000);
+        });
+
+
+        // 6. MOUSE PARALLAX (3D Effect)
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth - e.pageX * 2) / 100;
+            const y = (window.innerHeight - e.pageY * 2) / 100;
+
+            // Shift the Background
+            document.querySelector('.star-field').style.transform = `translate(${x}px, ${y}px)`;
+
+            // Shift the Orb (Slightly more for depth)
+            const orb = document.querySelector('.breathing-orb');
+            if (orb) {
+                orb.style.transform = `translate(${x * 2}px, ${y * 2}px)`;
+            }
+        });
+    </script>
+</body>
+
+</html>

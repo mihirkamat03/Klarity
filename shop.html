@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klarity | Wellness Store</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* --- MARKETPLACE SPECIFIC STYLES --- */
+        body {
+            background: #020205;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* 1. GAMING BACKGROUND (The Grid) */
+        .gaming-void {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #020205;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .retro-grid {
+            position: absolute;
+            width: 300%;
+            height: 300%;
+            left: -100%;
+            top: -100%;
+            background-image:
+                linear-gradient(rgba(90, 128, 255, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(90, 128, 255, 0.3) 1px, transparent 1px);
+            background-size: 80px 80px;
+            transform: rotateX(75deg);
+            transform-origin: center bottom;
+            animation: gridScroll 15s linear infinite;
+            mask-image: linear-gradient(to top, transparent 5%, white 40%, white 100%);
+        }
+
+        .rgb-ambient {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(46, 92, 255, 0.15), rgba(255, 0, 85, 0.1), transparent 70%);
+            filter: blur(80px);
+            animation: rgbPulse 8s infinite alternate ease-in-out;
+        }
+
+        .vignette-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle, transparent 40%, #020205 100%);
+            pointer-events: none;
+        }
+
+        /* 2. STICKY WALLET HEADER */
+        .market-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(2, 2, 5, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 40px;
+        }
+
+        .market-brand {
+            font-weight: 700;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .market-brand img {
+            width: 120px;
+        }
+
+        .xp-wallet {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .xp-icon {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .xp-val {
+            font-weight: 700;
+            font-size: 16px;
+            font-family: monospace;
+        }
+
+        .close-btn {
+            text-decoration: none;
+            color: #888;
+            font-size: 24px;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        /* 3. MAIN CONTAINER */
+        .market-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* 4. HERO BANNER */
+        .hero-banner {
+            background: linear-gradient(90deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9));
+            border-radius: 16px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 50px;
+            border: 1px solid rgba(90, 128, 255, 0.3);
+            box-shadow: 0 0 30px rgba(90, 128, 255, 0.1);
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 50%;
+        }
+
+        .hero-tag {
+            background: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            margin: 0 0 10px 0;
+            font-weight: 800;
+            line-height: 1.1;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-desc {
+            color: #aaa;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .hero-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .hero-visual {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--primary), transparent 70%);
+            border-radius: 50%;
+            opacity: 0.5;
+            filter: blur(40px);
+            position: absolute;
+            right: 50px;
+        }
+
+        .action-btn {
+            background: white;
+            color: black;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        /* 5. SECTIONS */
+        .shelf {
+            margin-bottom: 50px;
+        }
+
+        .shelf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .shelf-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 0 0 10px black;
+        }
+
+        .shelf-title span {
+            color: #888;
+            font-size: 16px;
+            font-weight: 400;
+            margin-left: 10px;
+        }
+
+        .view-all {
+            color: #888;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .shelf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        /* 6. ITEM CARD */
+        .item-card {
+            background: rgba(30, 30, 35, 0.6);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .item-card:hover {
+            background: rgba(40, 40, 45, 0.9);
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            background: #111;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-info h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: white;
+        }
+
+        .card-info p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .price-tag {
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .xp-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        /* Gradients */
+        .g-cyber {
+            background: linear-gradient(135deg, #00C9FF, #92FE9D);
+        }
+
+        .g-fire {
+            background: linear-gradient(135deg, #F5576C, #F093FB);
+        }
+
+        .g-dark {
+            background: linear-gradient(135deg, #434343, #000000);
+        }
+
+        .g-gold {
+            background: linear-gradient(135deg, #fce38a, #f38181);
+        }
+
+        /* States */
+        .locked {
+            opacity: 0.6;
+        }
+
+        .locked .card-img::after {
+            content: '🔒';
+            position: absolute;
+            background: rgba(0, 0, 0, 0.6);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        /* ANIMATIONS */
+        @keyframes gridScroll {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 0 80px;
+            }
+        }
+
+        @keyframes rgbPulse {
+            0% {
+                opacity: 0.5;
+                filter: hue-rotate(0deg);
+            }
+
+            100% {
+                opacity: 0.8;
+                filter: hue-rotate(30deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="gaming-void">
+        <div class="retro-grid"></div>
+        <div class="rgb-ambient"></div>
+        <div class="vignette-overlay"></div>
+    </div>
+
+    <nav class="market-header">
+        <div class="market-brand">
+            <img src="assets/image/K cropped.png" alt="logo">
+            <span>Store</span>
+        </div>
+
+        <div class="xp-wallet">
+            <span class="xp-icon">⚡</span>
+            <span class="xp-val" id="userXP">1,250</span>
+        </div>
+
+        <a href="index.html" class="close-btn" title="Close Store">✕</a>
+    </nav>
+
+    <div class="market-container">
+
+        <div class="hero-banner">
+            <div class="hero-content">
+                <span class="hero-tag">Legendary Bundle</span>
+                <h1 class="hero-title">Deep Work Suite</h1>
+                <p class="hero-desc">Includes: Focus Mode Theme, White Noise Pack, and Donation to Mental Health
+                    Charity.</p>
+                <span class="hero-price">2,500 Balance Points</span>
+                <button class="action-btn" onclick="buyItem(2500)">Claim Bundle</button>
+            </div>
+            <div class="hero-visual"></div>
+        </div>
+
+        <div class="shelf">
+            <div class="shelf-header">
+                <h2 class="shelf-title">Auras <span>Visual Themes</span></h2>
+                <a href="#" class="view-all">See All</a>
+            </div>
+            <div class="shelf-grid">
+                <div class="item-card" onclick="buyItem(500)">
+                    <div class="card-img g-cyber"></div>
+                    <div class="card-info">
+                        <h4>Neon City</h4>
+                        <p>Visual Theme</p>
+                        <div class="price-tag">
+                            <div class="xp-dot"></div> 500 Balance Points
+                        </div>
+                    </div>
+                </div>
+                <div class="item-card" onclick="buyItem(600)">
+                    <div class="card-img g-fire"></div>
+                    <div class="card-info">
+                        <h4>Sunset Drive</h4>
+                        <p>Visual Theme</p>
+                        <div class="price-tag">
+                            <div class="xp-dot"></div> 600 Balance Points
+                        </div>
+                    </div>
+                </div>
+                <div class="item-card locked">
+                    <div class="card-img g-gold"></div>
+                    <div class="card-info">
+                        <h4>Royal Gold</h4>
+                        <p>Premium Theme</p>
+                        <div class="price-tag">
+                            <div class="xp-dot"></div> 1,000 Balance Points
+                        </div>
+                    </div>
+                </div>
+                <div class="item-card">
+                    <div class="card-img g-dark"
+                        style="color:white; display:flex; justify-content:center; align-items:center; font-size:12px;">
+                        DEFAULT</div>
+                    <div class="card-info">
+                        <h4>Obsidian</h4>
+                        <p>Owned</p>
+                        <div class="price-tag">Active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="shelf">
+            <div class="shelf-header">
+                <h2 class="shelf-title">Soundscapes <span>Focus Audio</span></h2>
+                <a href="#" class="view-all">See All</a>
+            </div>
+            <div class="shelf-grid">
+                <div class="item-card" onclick="buyItem(300)">
+                    <div class="card-img" style="background: #222;">🌧️</div>
+                    <div class="card-info">
+                        <h4>Heavy Rain</h4>
+                        <p>Audio Loop</p>
+                        <div class="price-tag">
+                            <div class="xp-dot"></div> 300 Balance Points
+                        </div>
+                    </div>
+                </div>
+                <div class="item-card" onclick="buyItem(400)">
+                    <div class="card-img" style="background: #2b1d1d;">🔥</div>
+                    <div class="card-info">
+                        <h4>Campfire</h4>
+                        <p>Audio Loop</p>
+                        <div class="price-tag">
+                            <div class="xp-dot"></div> 400 Balance Points
+                        </div>
+                    </div>
+                </div>
+                <div class="item-card locked">
+                    <div class="card-img" style="background: #0d1b2a;">🚀</div>
+                    <div class="card-info">
+                        <h4>Starship</h4>
+                        <p>Audio Loop</p>
+                        <div class="price-tag">
+                            <div class="xp-dot"></div> 800 Balance Points
+                        </div>
+                    </div>
+                </div>
+                <div class="item-card">
+                    <div class="card-img" style="background: #333;">🟤</div>
+                    <div class="card-info">
+                        <h4>Brown Noise</h4>
+                        <p>Owned</p>
+                        <div class="price-tag">Active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentXP = 1250;
+        const xpDisplay = document.getElementById('userXP');
+
+        function buyItem(price) {
+            if (currentXP >= price) {
+                animateValue(currentXP, currentXP - price, 500);
+                currentXP -= price;
+                alert("Item Unlocked!");
+            } else {
+                alert("Insufficient XP. Complete more tasks!");
+            }
+        }
+
+        function animateValue(start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                xpDisplay.innerText = value.toLocaleString();
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        }
+    </script>
+</body>
+
+</html>

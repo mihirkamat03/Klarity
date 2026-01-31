@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Klarity | Unified Workspace</title>
+</head>
+
+<body>
+
+    <div class="aurora-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="noise-overlay"></div>
+    </div>
+
+    <header class="cyber-header">
+        <div class="brand">
+            <img src="assets/image/K cropped.png" alt="Klarity Logo">
+        </div>
+
+        <nav class="nav-pills">
+            <a href="#sanctuary" class="nav-item">Stream</a>
+            <a href="focus.html" class="nav-item">Deep Work</a>
+            <a href="reflection.html" class="nav-item">Analytics</a>
+            <a href="shop.html" class="nav-item">Wellness</a>
+        </nav>
+
+        <div class="action-dock">
+            <div class="icon-btn">
+                <img src="assets/image/noti.png" alt="Notifications">
+                <div class="dot"></div>
+            </div>
+            <div class="icon-btn" onclick="window.location.href='shop.html'" title="Workspace Settings">
+                <img src="assets/image/setting.png" alt="Settings">
+            </div>
+            <div class="profile-frame">
+                <img src="assets/image/account1.png" alt="Profile">
+            </div>
+        </div>
+    </header>
+
+    <main class="scroll-container">
+
+        <section class="zoom-section" id="sanctuary">
+            <div class="content-wrapper">
+                <div class="hero-block">
+                    <h1 class="mega-title">Command Your<br>Attention.</h1>
+                    <p class="subtitle">Inbox, Calendar, and Slack—unified in one intelligent stream.</p>
+                </div>
+
+                <div class="card-row">
+                    <div class="void-card hover-tilt" onclick="selectMode('high')">
+                        <span class="emoji-xl">⚡</span>
+                        <h3>Sprint Mode</h3>
+                        <p>Clear Inbox Fast</p>
+                    </div>
+                    <div class="void-card hover-tilt" onclick="selectMode('flow')">
+                        <span class="emoji-xl">🌊</span>
+                        <h3>Deep Work</h3>
+                        <p>Block Notifications</p>
+                    </div>
+                    <div class="void-card hover-tilt" onclick="selectMode('low')">
+                        <span class="emoji-xl">🔋</span>
+                        <h3>Decompress</h3>
+                        <p>Reschedule Meetings</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="zoom-section" id="why-us">
+            <div class="content-wrapper">
+                <div class="section-top center-text">
+                    <h2 class="display-font">The Unified Flow</h2>
+                    <p class="body-text">Stop tab-switching. We merged your <strong>Email, Calendar, and Tasks</strong> <br>into a single timeline based on urgency, not just timestamp.</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="icon-lg">🧠</span>
+                        <h3>Context Fusion</h3>
+                        <p>Emails and meetings live together. See the "Client Meeting" right next to the "Prep Doc" email.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon-lg">🚫</span>
+                        <h3>Signal vs Noise</h3>
+                        <p>The Vortex filters out low-priority chatter so you only see what needs action.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon-lg">⚡</span>
+                        <h3>Energy Sync</h3>
+                        <p>We don't just find open slots. We schedule demanding work when your energy is highest.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="zoom-section" id="river">
+            <div class="content-wrapper">
+                
+                <div class="section-top center-text">
+                    <h2 class="display-font">Your Stream</h2>
+                    
+                    <div class="context-toggle">
+                        <button class="ctx-btn active" onclick="toggleContext(this, 'startup')">
+                            <span class="icon">🚀</span> Startup (Intern)
+                        </button>
+                        <button class="ctx-btn" onclick="toggleContext(this, 'uni')">
+                            <span class="icon">🎓</span> University
+                        </button>
+                    </div>
+                
+                    <div class="live-tag" style="color:var(--primary); font-family:monospace; margin: 20px 0;">🔴 LIVE SYNC: G-SUITE</div>
+                    
+                    <div class="stream-filters">
+                        <button class="filter-chip active">All</button>
+                        <button class="filter-chip">Mentions <span class="badge">3</span></button>
+                        <button class="filter-chip">Meetings</button>
+                        <button class="filter-chip">Urgent ⚠️</button>
+                    </div>
+                </div>
+
+                <div class="vertical-river river-width-fix">
+                    <div class="river-spine"></div>
+
+                    <div class="river-row left">
+                        <div class="river-card tech-panel" style="border-left: 3px solid var(--neon-cyan);">
+                            <div style="display:flex; justify-content:space-between; align-items:start;">
+                                <div>
+                                    <span class="time-code" style="color: var(--neon-cyan);">✅ ENDED 5m AGO</span>
+                                    <h4>Weekly Design Critique</h4>
+                                </div>
+                                <div style="width:25px; height:25px; background:var(--neon-cyan); border-radius:50%; color:black; font-weight:bold; display:flex; align-items:center; justify-content:center; font-size: 10px;">AI</div>
+                            </div>
+                            
+                            <div style="background: rgba(0, 255, 224, 0.1); padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px dashed rgba(0, 255, 224, 0.3);">
+                                <p style="font-size: 11px; color: #ddd; margin: 0;"><strong>Oracle Summary:</strong> "Kartik to update color palette by EOD."</p>
+                            </div>
+                    
+                            <button class="cyber-btn" style="margin-top:10px; padding: 8px 20px; font-size: 11px; height: auto; width: 100%;">
+                                <span>SEND NOTES</span>
+                            </button>
+                        </div>
+                        <div class="connector-line"></div>
+                        <div class="connector-dot" style="background: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan);"></div>
+                    </div>
+
+                    <div class="river-row left">
+                        <div class="river-card tech-panel">
+                            <div style="display:flex; justify-content:space-between; align-items:start;">
+                                <div>
+                                    <span class="time-code">NOW • 10:00 AM</span>
+                                    <h4>Design Sprint Sync</h4>
+                                </div>
+                                <div style="display:flex; margin-left:10px;">
+                                    <div style="width:25px; height:25px; background:#555; border-radius:50%; border:2px solid #111; margin-left:-10px;"></div>
+                                    <div style="width:25px; height:25px; background:#777; border-radius:50%; border:2px solid #111; margin-left:-10px;"></div>
+                                    <div style="width:25px; height:25px; background:var(--primary); border-radius:50%; border:2px solid #111; margin-left:-10px; font-size:10px; display:flex; align-items:center; justify-content:center;">+4</div>
+                                </div>
+                            </div>
+                            <span class="meta">👥 Product Team • G-Meet</span>
+                        </div>
+                        <div class="connector-line"></div>
+                        <div class="connector-dot"></div>
+                    </div>
+
+                    <div class="river-row right">
+                        <div class="connector-dot"></div>
+                        <div class="connector-line"></div>
+                        <div class="river-card orb-capsule glow-blue">
+                            <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
+                                <span class="xp-badge">✉️ New Email</span>
+                                <span style="font-size: 9px; background: rgba(90, 128, 255, 0.2); padding: 2px 8px; border-radius: 4px; color: #88faea; border: 1px solid rgba(90, 128, 255, 0.5);">
+                                    INTENT: DECISION REQUIRED
+                                </span>
+                            </div>
+                            <h4>Re: Q3 Roadmap</h4>
+                            <p style="font-size: 12px; color: #aaa; margin: 5px 0;">"Kartik, need your sign-off on the colors..."</p>
+                            
+                            <div class="hover-actions" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; display: none; gap: 10px;">
+                                <button style="background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 10px; cursor: pointer;">📅 Book Meeting</button>
+                                <button onclick="openMagicDraft()" style="background: linear-gradient(135deg, #00C6FF, #0072FF); color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;">
+                                    ✨ AI Auto-Reply
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="river-row right">
+                        <div class="connector-dot"></div>
+                        <div class="connector-line"></div>
+                        <div class="river-card orb-capsule glow-orange">
+                            <span class="xp-badge">💬 Slack Ping</span>
+                            <h4>#design-system assets?</h4>
+                        </div>
+                    </div>
+
+                    <div class="river-row left">
+                        <div class="river-card tech-panel" style="opacity: 0.7; border-style: dashed;">
+                            <span class="time-code">11:30 AM - 12:30 PM</span>
+                            <h4>🔒 Scheduled Focus Block</h4>
+                            <span class="meta">Blocked by Klarity • "Deep Work"</span>
+                        </div>
+                        <div class="connector-line"></div>
+                        <div class="connector-dot" style="background: #333;"></div>
+                    </div>
+
+                    <div class="river-row right">
+                        <div class="connector-dot"></div>
+                        <div class="connector-line"></div>
+                        <div class="river-card orb-capsule" style="opacity: 0.5;">
+                            <span class="xp-badge" style="background:#333;">✉️ Newsletter</span>
+                            <h4>TechCrunch Weekly</h4>
+                            <span class="meta" style="font-size:10px;">Auto-snoozed by Vortex</span>
+                        </div>
+                    </div>
+
+                    <div class="river-row left">
+                        <div class="river-card tech-panel alert">
+                            <span class="time-code">DUE 02:00 PM</span>
+                            <h4>Client Handover</h4>
+                            <span class="meta">⚠️ High Priority • Figma</span>
+                        </div>
+                        <div class="connector-line"></div>
+                        <div class="connector-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section style="height: 60vh;" class="zoom-section" id="vortex-intro">
+            <div class="content-wrapper split-stage reverse">
+                <div class="text-area">
+                    <h2 class="display-font">Declutter<br>Your Mind.</h2>
+                    <p class="body-text">Too many tabs open? Random requests piling up?<br>Don't let them break your flow. Throw them into the <strong>Vortex</strong> to process later.</p>
+                </div>
+                <div class="visual-area">
+                    <div class="hologram-box red-theme">
+                        <span class="giant-icon">🌪️</span>
+                        <div class="spin-ring fast"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section style="height: 60vh;" class="zoom-section" id="vortex">
+            <div class="content-wrapper center-stage">
+                <h2 class="display-font">The Vortex</h2>
+                <div class="input-bar">
+                    <input type="text" id="thoughtInput" placeholder="Dump a distraction (e.g., 'Reply to Sarah later')...">
+                    <button class="cyber-btn" onclick="addThought()"><span>RELEASE</span></button>
+                    <button class="cyber-btn" onclick="window.location.href='dump.html'" style="background: transparent; border: 1px solid white; color: white; margin-left: 10px;"><span>OPEN VAULT</span></button>
+                </div>
+                <div class="void-zone" id="voidZone">
+                    <div class="debris" style="top: 20%; left: 5%">Update Jira</div>
+                    <div class="debris" style="top: 200%; left: 50%">Book Flight</div>
+                    <div class="debris" style="top: -50%; left: 20%">Check LinkedIn</div>
+                    <div class="debris" style="top: 140%; left: 10%">Lunch Order</div>
+                    <div class="debris" style="top: 120%; left: 60%">Team Retro</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="zoom-section" id="stats">
+            <div class="content-wrapper">
+                <h2 class="display-font">Communication Health</h2>
+                <div class="bento-grid" onclick="window.location.href='reflection.html'" style="cursor: pointer;" title="View Analytics">
+                    <div class="bento-box focus-box">
+                        <div class="box-header"><span>FOCUS_TIME</span><span class="led"></span></div>
+                        <div class="chart-container">
+                            <svg viewBox="0 0 36 36" class="circular-chart green">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle" stroke-dasharray="75, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            </svg>
+                            <div class="inner-text"><span class="value">4h</span><span class="label">Deep Work</span></div>
+                        </div>
+                    </div>
+                    <div class="bento-box stat-small"><h3>Inbox Zero</h3><div class="big-num">4 <span class="unit">day streak</span></div></div>
+                    <div class="bento-box stat-small"><h3>Meetings</h3><div class="big-num">3 <span class="unit">today</span></div></div>
+                    
+                    <div class="bento-box graph-box">
+                        <h3>Today's Rhythm</h3>
+                        <p style="font-size: 13px; color: #666; margin-top: -5px;">Visualizing your time blocks.</p>
+                        <div style="display: flex; height: 60px; align-items: flex-end; gap: 4px; margin-top: 15px;">
+                            <div style="flex: 1; background: #222; height: 100%; border-radius: 4px;" title="9 AM - Commute"></div>
+                            <div style="flex: 2; background: var(--primary); height: 100%; border-radius: 4px;" title="10 AM - Design Sync (Meeting)"></div>
+                            <div style="flex: 1; background: #222; height: 100%; border-radius: 4px;" title="11:30 AM - Break"></div>
+                            <div style="flex: 3; background: var(--neon-cyan); height: 100%; border-radius: 4px; opacity: 0.8; box-shadow: 0 0 10px var(--neon-cyan);" title="12 PM - Deep Work (Current)"></div>
+                            <div style="flex: 1; background: var(--accent); height: 100%; border-radius: 4px;" title="3 PM - Deadline"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 500; color: #888; margin-top: 8px; font-family: 'Space Grotesk', sans-serif;">
+                            <span>09:00</span><span>12:00</span><span>15:00</span><span>18:00</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="oracle-container">
+        <div class="oracle-orb" onclick="toggleOracle()">
+            <div class="orb-core"></div>
+            <div class="orb-ring"></div>
+        </div>
+        <div class="oracle-interface" id="oracleUI">
+            <div class="oracle-header">
+                <h3>Oracle Copilot</h3>
+                <div style="display: flex; gap: 10px;">
+                    <span class="close-chat" onclick="window.location.href='oracle.html'" title="Full Screen" style="font-size: 16px;">⤢</span>
+                    <span class="close-chat" onclick="toggleOracle()">✕</span>
+                </div>
+            </div>
+            <div class="chat-history" id="chatHistory">
+                <div class="msg ai-msg"><p>Good morning, Kartik. You have 3 meetings and 12 unread emails. Shall we prioritize?</p></div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="oracleInput" placeholder="Ask Oracle..." onkeypress="handleOracleInput(event)">
+                <button onclick="sendOracleMessage()">→</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="magicModal" class="modal-overlay" style="display: none;">
+        <div class="glass-modal">
+            <div class="modal-header">
+                <h3>✨ Oracle Ghostwriter</h3>
+                <span onclick="closeMagicDraft()" style="cursor: pointer;">✕</span>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom: 15px; color: #888; font-size: 12px;">
+                    To: <span style="color: white;">Sarah Jenkins (Product Lead)</span><br>
+                    Subject: <span style="color: white;">Re: Q3 Roadmap Sign-off</span>
+                </div>
+                <textarea id="ghostTypewriter" readonly></textarea>
+                <div class="modal-actions">
+                    <button class="cyber-btn" onclick="closeMagicDraft()">SEND & ARCHIVE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="static-footer">
+        <div class="footer-content">
+            <div class="footer-col brand-col">
+                <div class="footer-logo"><img src="assets/image/K cropped.png" alt="logo" width="120px"></div>
+                <p>The OS for calm collaboration.<br>Built for the future of work.</p>
+            </div>
+            <div class="footer-col"><h5>PRODUCT</h5><a href="#">Integrations</a><a href="#">Manifesto</a></div>
+            <div class="footer-col"><h5>COMMUNITY</h5><a href="https://github.com/mihirkamat03">Github</a><a href="https://www.linkedin.com/in/mihirkamat/">LinkedIn</a><a href="https://www.instagram.com/mihirkamat_07">Instagram</a></div>
+        </div>
+        <div class="copyright">&copy; 2026 Klarity | MIT License<br> Designed and built by Mihir Kamat</div>
+    </footer>
+
+    <script>
+        // VORTEX
+        function addThought() {
+            const input = document.getElementById('thoughtInput');
+            const zone = document.getElementById('voidZone');
+            const text = input.value;
+            if (!text) return;
+            const debris = document.createElement('div');
+            debris.classList.add('debris');
+            debris.innerText = text;
+            const x = Math.floor(Math.random() * 80) + 10;
+            const y = Math.floor(Math.random() * 80) + 10;
+            debris.style.left = x + '%';
+            debris.style.top = y + '%';
+            zone.appendChild(debris);
+            input.value = "";
+            setTimeout(() => { debris.style.transform = "scale(0) rotate(720deg)"; debris.style.opacity = "0"; }, 500);
+        }
+
+        // SCROLL
+        const sections = document.querySelectorAll('.zoom-section');
+        function animateScroll() {
+            const viewportHeight = window.innerHeight;
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                const wrapper = section.querySelector('.content-wrapper');
+                if (!wrapper) return;
+                const isTall = rect.height > viewportHeight;
+                let opacity = 1, scale = 1, blur = 0;
+                if (isTall) {
+                    if (rect.top > 0) { opacity = 1 - (rect.top/viewportHeight); scale = 0.9+(0.1*opacity); }
+                    else if (rect.bottom < viewportHeight) { opacity = rect.bottom/viewportHeight; scale = 0.9+(0.1*opacity); }
+                } else {
+                    const centerPoint = viewportHeight/2;
+                    const sectionCenter = rect.top+(rect.height/2);
+                    opacity = Math.max(0, Math.min(1, 1-(Math.abs(sectionCenter-centerPoint)/(viewportHeight*0.8))));
+                    scale = 0.8+(0.2*opacity);
+                    blur = (1-opacity)*5;
+                }
+                wrapper.style.transform = `scale(${scale})`;
+                wrapper.style.opacity = `${opacity}`;
+                wrapper.style.filter = blur>0 ? `blur(${blur}px)` : 'none';
+            });
+            requestAnimationFrame(animateScroll);
+        }
+        animateScroll();
+
+        // OBSERVER - ADD .river-row
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('in-view'); });
+        }, { threshold: 0.1 });
+        // Include .river-row to trigger animations
+        document.querySelectorAll('.card-row, .split-stage, .vertical-river, .bento-grid, .features-grid, .river-row').forEach(el => observer.observe(el));
+
+        function selectMode(mode) { localStorage.setItem('kalmMode', mode); window.location.href = 'focus.html'; }
+
+        // ORACLE
+        function toggleOracle() {
+            const ui = document.getElementById('oracleUI');
+            const orb = document.querySelector('.oracle-orb');
+            ui.classList.toggle('active');
+            orb.classList.toggle('open');
+            if (ui.classList.contains('active')) document.getElementById('oracleInput').focus();
+        }
+        function handleOracleInput(e) { if (e.key === 'Enter') sendOracleMessage(); }
+        function sendOracleMessage() {
+            const input = document.getElementById('oracleInput');
+            const text = input.value.trim();
+            if (!text) return;
+            addMessage(text, 'user-msg');
+            input.value = '';
+            const history = document.getElementById('chatHistory');
+            const loading = document.createElement('div');
+            loading.className = 'msg ai-msg loading-dots';
+            loading.innerHTML = '<span>.</span><span>.</span><span>.</span>';
+            history.appendChild(loading);
+            history.scrollTop = history.scrollHeight;
+            setTimeout(() => { loading.remove(); addMessage(generateAIResponse(text.toLowerCase()), 'ai-msg'); }, 1000);
+        }
+        function addMessage(text, className) {
+            const history = document.getElementById('chatHistory');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `msg ${className}`;
+            msgDiv.innerHTML = `<p>${text}</p>`;
+            history.appendChild(msgDiv);
+            history.scrollTop = history.scrollHeight;
+        }
+        function generateAIResponse(input) {
+            if (input.includes('email') || input.includes('read') || input.includes('unread')) return "You have 12 unread emails. 3 are flagged as high priority. Shall I summarize them?";
+            if (input.includes('meet') || input.includes('calendar')) return "Your next meeting is 'Design Sync' in 15 minutes. Want me to open the agenda?";
+            if (input.includes('focus') || input.includes('work')) { setTimeout(() => window.location.href = 'focus.html', 1500); return "Initiating Deep Work Protocol... Blocking notifications."; }
+            if (input.includes('shop') || input.includes('theme')) { setTimeout(() => window.location.href = 'shop.html', 1500); return "Opening Workspace Settings..."; }
+            return "I'm here to help manage your flow. You can ask about emails, meetings, or start focus mode.";
+        }
+
+        // CONTEXT SWITCHER
+        function toggleContext(btn, context) {
+            document.querySelectorAll('.ctx-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const river = document.querySelector('.vertical-river');
+            river.style.opacity = '0';
+            river.style.transform = 'translateY(10px)';
+            setTimeout(() => { river.style.transition = '0.3s ease'; river.style.opacity = '1'; river.style.transform = 'translateY(0)'; }, 300);
+        }
+
+        // GHOSTWRITER
+        const emailTemplate = `Hi Sarah,\n\nThanks for sharing the updated roadmap. I've reviewed the color palette changes and they align perfectly with our new design system. \n\nYou have my sign-off to proceed with the Engineering handover.\n\nBest,\nKartik`;
+        let typeInterval;
+        function openMagicDraft() {
+            const modal = document.getElementById('magicModal');
+            const textarea = document.getElementById('ghostTypewriter');
+            modal.style.display = 'flex';
+            textarea.value = ""; 
+            let i = 0;
+            clearInterval(typeInterval);
+            typeInterval = setInterval(() => {
+                textarea.value += emailTemplate.charAt(i);
+                i++;
+                textarea.scrollTop = textarea.scrollHeight; 
+                if (i >= emailTemplate.length) clearInterval(typeInterval);
+            }, 30); 
+        }
+        function closeMagicDraft() { document.getElementById('magicModal').style.display = 'none'; }
+    </script>
+</body>
+</html>

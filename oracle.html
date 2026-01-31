@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klarity | Oracle Copilot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* --- FULL SCREEN CHAT STYLES --- */
+        body { 
+            background: #050505; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+
+        /* 1. SIDEBAR (History) */
+        .chat-sidebar {
+            width: 260px;
+            background: #0a0a0a;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            display: flex; flex-direction: column;
+            padding: 20px;
+            transition: 0.3s;
+        }
+        
+        .new-chat-btn {
+            background: #1a1a1a;
+            color: white;
+            border: 1px solid #333;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex; align-items: center; gap: 10px;
+            font-size: 14px;
+            transition: 0.2s;
+            margin-bottom: 30px;
+        }
+        .new-chat-btn:hover { background: #222; border-color: #555; }
+        
+        .history-label { font-size: 12px; color: #666; margin-bottom: 10px; font-weight: 700; }
+        
+        .history-item {
+            padding: 10px;
+            border-radius: 8px;
+            color: #ccc;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            transition: 0.2s;
+        }
+        .history-item:hover { background: rgba(255,255,255,0.05); color: white; }
+        .history-item.active { background: rgba(90, 128, 255, 0.1); color: #5A80FF; }
+
+        /* User Profile at Bottom */
+        .user-mini {
+            margin-top: auto;
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+        .user-avatar { width: 30px; height: 30px; border-radius: 50%; background: #5A80FF; }
+        .user-name { font-size: 14px; color: white; font-weight: 700; }
+        .back-dash { font-size: 11px; color: #888; text-decoration: none; display: block; }
+
+
+        /* 2. MAIN CHAT AREA */
+        .chat-main {
+            flex: 1;
+            display: flex; flex-direction: column;
+            position: relative;
+            background: radial-gradient(circle at top, #111 0%, #000 60%);
+        }
+
+        /* Top Nav */
+        .chat-top-nav {
+            padding: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            color: #888; font-size: 14px;
+        }
+        .model-select { display: flex; align-items: center; gap: 5px; color: white; font-weight: 700; cursor: pointer; }
+        .model-select span { color: #5A80FF; }
+
+        /* Messages Scroll Area */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20% 40px; /* Centered narrow column */
+            display: flex; flex-direction: column; gap: 30px;
+            scroll-behavior: smooth;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            margin-top: 10vh;
+            opacity: 1; transition: 0.3s;
+        }
+        .ai-logo-large {
+            width: 80px; height: 80px; margin: 0 auto 20px;
+            background: white; border-radius: 50%;
+            box-shadow: 0 0 50px rgba(255,255,255,0.2);
+            animation: pulseSlow 4s infinite;
+        }
+        .greeting { font-size: 32px; font-weight: 700; margin-bottom: 10px; color: white; }
+        .sub-greeting { color: #666; }
+
+        /* Suggestion Cards */
+        .suggestion-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+            margin-top: 40px; max-width: 600px; margin-left: auto; margin-right: auto;
+        }
+        .sugg-card {
+            background: #151515; border: 1px solid #333; padding: 15px;
+            border-radius: 12px; cursor: pointer; transition: 0.2s; text-align: left;
+        }
+        .sugg-card:hover { background: #222; border-color: #666; }
+        .sugg-title { color: white; font-size: 14px; font-weight: 600; display: block; margin-bottom: 5px; }
+        .sugg-desc { color: #666; font-size: 12px; }
+
+        /* Input Area */
+        .input-wrapper {
+            padding: 20px 20%;
+            background: linear-gradient(to top, #000 80%, transparent);
+        }
+        .chat-box {
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 10px 15px;
+            display: flex; align-items: flex-end; gap: 10px;
+            border: 1px solid #333;
+            transition: 0.3s;
+        }
+        .chat-box:focus-within { border-color: #666; background: #222; }
+        
+        textarea {
+            flex: 1; background: transparent; border: none; color: white;
+            resize: none; height: 24px; max-height: 150px; padding: 5px 0;
+            font-family: inherit; outline: none;
+        }
+        
+        .send-btn {
+            background: #fff; color: black; border: none;
+            width: 32px; height: 32px; border-radius: 8px;
+            cursor: pointer; transition: 0.2s; font-weight: bold;
+        }
+        .send-btn:hover { opacity: 0.8; }
+
+        /* Message Bubbles */
+        .msg-row { display: flex; gap: 20px; line-height: 1.6; }
+        .msg-avatar { width: 30px; height: 30px; border-radius: 50%; background: #333; flex-shrink: 0; }
+        .msg-avatar.ai { background: white; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .msg-content { color: #ddd; font-size: 15px; padding-top: 4px; }
+        .msg-content strong { color: white; }
+
+        @keyframes pulseSlow { 0%,100% { box-shadow: 0 0 30px rgba(255,255,255,0.1); } 50% { box-shadow: 0 0 60px rgba(255,255,255,0.3); } }
+
+        /* Responsive Mobile */
+        @media (max-width: 768px) {
+            .chat-sidebar { display: none; }
+            .messages-container, .input-wrapper { padding-left: 20px; padding-right: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-sidebar">
+        <div class="new-chat-btn" onclick="resetChat()">
+            <span>+</span> New Thread
+        </div>
+
+        <div class="history-label">Today</div>
+        <div class="history-item active">Meeting Prep: Design Sync</div>
+        <div class="history-item">Summarize Unread Emails</div>
+        
+        <div class="history-label" style="margin-top: 20px;">Yesterday</div>
+        <div class="history-item">Draft Reply to Client</div>
+        <div class="history-item">Q3 Roadmap Ideas</div>
+
+        <div class="user-mini" onclick="window.location.href='index.html'">
+            <div class="user-avatar"></div>
+            <div>
+                <div class="user-name">Kartik</div>
+                <a href="index.html" class="back-dash">← Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-main">
+        
+        <div class="chat-top-nav">
+            <div class="model-select">Oracle <span>1.0</span> ▼</div>
+        </div>
+
+        <div class="messages-container" id="chatFeed">
+            
+            <div class="empty-state" id="welcomeState">
+                <div class="ai-logo-large"></div>
+                <div class="greeting">Hello, Kartik</div>
+                <div class="sub-greeting">I can help you prioritize tasks or draft responses.</div>
+
+                <div class="suggestion-grid">
+                    <div class="sugg-card" onclick="sendPrescript('I feel overwhelmed with tasks.')">
+                        <span class="sugg-title">🧠 Emotional Support</span>
+                        <span class="sugg-desc">"I feel overwhelmed..."</span>
+                    </div>
+                    <div class="sugg-card" onclick="sendPrescript('Draft a reply to the client email.')">
+                        <span class="sugg-title">✉️ Draft Email</span>
+                        <span class="sugg-desc">"Draft a reply..."</span>
+                    </div>
+                    <div class="sugg-card" onclick="sendPrescript('Help me focus for 50 minutes.')">
+                        <span class="sugg-title">⏳ Deep Work</span>
+                        <span class="sugg-desc">"Start a timer..."</span>
+                    </div>
+                    <div class="sugg-card" onclick="sendPrescript('Summarize the last meeting notes.')">
+                        <span class="sugg-title">📝 Meeting Summary</span>
+                        <span class="sugg-desc">"Summarize notes..."</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="input-wrapper">
+            <div class="chat-box">
+                <textarea id="mainInput" placeholder="Message Oracle..." oninput="autoResize(this)" onkeypress="handleKey(event)"></textarea>
+                <button class="send-btn" onclick="sendMainMsg()">↑</button>
+            </div>
+            <div style="text-align: center; color: #444; font-size: 11px; margin-top: 10px;">
+                Oracle can make mistakes. Consider checking important info.
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Auto-resize textarea
+        function autoResize(el) {
+            el.style.height = 'auto';
+            el.style.height = el.scrollHeight + 'px';
+        }
+
+        // Handle Enter Key
+        function handleKey(e) {
+            if(e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMainMsg();
+            }
+        }
+
+        function sendPrescript(text) {
+            document.getElementById('mainInput').value = text;
+            sendMainMsg();
+        }
+
+        function sendMainMsg() {
+            const input = document.getElementById('mainInput');
+            const text = input.value.trim();
+            if(!text) return;
+
+            // Hide Welcome State
+            document.getElementById('welcomeState').style.display = 'none';
+
+            // 1. Add User Msg
+            addMsgRow(text, 'user');
+            input.value = '';
+            input.style.height = '24px';
+
+            // 2. Simulate AI Thinking
+            const feed = document.getElementById('chatFeed');
+            const loader = document.createElement('div');
+            loader.className = 'msg-row ai-row loading';
+            loader.innerHTML = `
+                <div class="msg-avatar ai"></div>
+                <div class="msg-content" style="color:#888;">Thinking...</div>
+            `;
+            feed.appendChild(loader);
+            feed.scrollTop = feed.scrollHeight;
+
+            // 3. Respond
+            setTimeout(() => {
+                loader.remove();
+                const response = getAIResponse(text);
+                addMsgRow(response, 'ai');
+            }, 1000);
+        }
+
+        function addMsgRow(text, sender) {
+            const feed = document.getElementById('chatFeed');
+            const row = document.createElement('div');
+            row.className = 'msg-row';
+            
+            if(sender === 'ai') {
+                row.innerHTML = `
+                    <div class="msg-avatar ai"></div>
+                    <div class="msg-content">${text}</div>
+                `;
+            } else {
+                row.innerHTML = `
+                    <div class="msg-avatar" style="background: #555;"></div>
+                    <div class="msg-content" style="color: #ccc;">${text}</div>
+                `;
+            }
+            
+            feed.appendChild(row);
+            feed.scrollTop = feed.scrollHeight;
+        }
+
+        function resetChat() {
+            document.getElementById('welcomeState').style.display = 'block';
+            document.querySelectorAll('.msg-row').forEach(row => row.remove());
+        }
+
+        // DEMO INTELLIGENCE
+        function getAIResponse(input) {
+            input = input.toLowerCase();
+            if(input.includes('plan') || input.includes('draft') || input.includes('reply')) 
+                return "I've drafted a plan: <br>1. <b>Review Jira</b> (10 mins)<br>2. <b>Design cleanup</b> (25 mins)<br>3. <b>Draft Client Update</b> (15 mins)<br>Shall I add these to your River?";
+            
+            if(input.includes('sad') || input.includes('overwhelmed')) 
+                return "It sounds like a heavy day. Remember, you don't have to do everything at once. Let's pick just <b>one small thing</b> to start. What is the smallest step you can take right now?";
+            
+            if(input.includes('focus') || input.includes('timer')) 
+                return "I can help with that. Switching you to <b>Deep Work Protocol</b> in 3 seconds...";
+            
+            if(input.includes('meeting') || input.includes('summary'))
+                return "Here is the summary: <br>• <b>Action:</b> Update Color Palette<br>• <b>Deadline:</b> EOD Today<br>• <b>Owner:</b> Kartik";
+
+            return "That's an interesting thought. Tell me more, or let me know if you want to turn this into a task.";
+        }
+    </script>
+</body>
+</html>

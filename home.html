@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klarity | The OS for Attention</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* LANDING SPECIFIC STYLES */
+        body {
+            background: #020205;
+            overflow-x: hidden;
+        }
+
+        /* SCROLL SNAP FOR SLIDES */
+        .onboarding-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }
+
+        .slide {
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .slide-content {
+            max-width: 1000px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            z-index: 2;
+        }
+
+        .slide-content1 {
+            max-width: 1000px;
+            display: flex;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .text-side {
+            flex: 1;
+        }
+
+        .visual-side {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 60px;
+            line-height: 1;
+            margin-bottom: 20px;
+            background: linear-gradient(to bottom, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        p {
+            font-size: 18px;
+            color: #888;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* BUTTONS */
+        .cta-btn {
+            background: white;
+            color: black;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #555;
+            animation: bounce 2s infinite;
+            font-size: 20px;
+        }
+
+        /* ABSTRACT UI VISUALS (CSS ONLY) */
+
+        /* 1. Stream Visual */
+        .ui-card-stack {
+            position: relative;
+            width: 300px;
+            height: 400px;
+        }
+
+        .ui-card {
+            background: rgba(20, 20, 30, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            position: absolute;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            transition: 0.5s;
+        }
+
+        .ui-card:nth-child(1) {
+            top: 0;
+            z-index: 3;
+            transform: scale(1);
+        }
+
+        .ui-card:nth-child(2) {
+            top: 40px;
+            z-index: 2;
+            transform: scale(0.95);
+            opacity: 0.7;
+        }
+
+        .ui-card:nth-child(3) {
+            top: 80px;
+            z-index: 1;
+            transform: scale(0.9);
+            opacity: 0.4;
+        }
+
+        /* 2. Vortex Visual */
+        .vortex-visual {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 0, 85, 0.3);
+            position: relative;
+            animation: spin 10s linear infinite;
+        }
+
+        .vortex-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: #FF0055;
+            border-radius: 50%;
+            box-shadow: 0 0 50px #FF0055;
+        }
+
+        /* 3. Question Visual */
+        .choice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .choice-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .choice-card:hover {
+            border-color: var(--primary);
+            background: rgba(90, 128, 255, 0.1);
+        }
+
+        .choice-card.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* NAV */
+        .landing-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 0px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: -20px;
+            z-index: 100;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translate(-50%, 0);
+            }
+
+            50% {
+                transform: translate(-50%, 10px);
+            }
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media(max-width: 768px) {
+            .slide-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+
+            h1 {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="landing-nav">
+        <img src="assets/image/K cropped.png" width="120px" alt="Logo">
+        <a href="login.html" style="color: white; text-decoration: none; font-weight: 700; margin-right: 40px;">Login</a>
+    </nav>
+
+    <div class="aurora-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2" style="bottom: 0; right: 0;"></div>
+        <div class="noise-overlay"></div>
+    </div>
+
+    <div class="onboarding-container">
+
+        <div class="slide">
+            <div class="slide-content">
+                <div class="text-side">
+                    <span style="color: var(--primary); font-weight: 700; letter-spacing: 2px;">KLARITY 1.0</span>
+                    <h1>The Operating System <br>for Attention.</h1>
+                    <p>Stop drowning in tabs. Klarity unifies your Email, Calendar, and Slack into a single, intelligent
+                        stream designed for flow.</p>
+                    <a href="#stream" class="cta-btn">Explore Features</a>
+                </div>
+                <div class="visual-side">
+                    <div
+                        style="width: 300px; height: 300px; background: radial-gradient(circle, rgba(90,128,255,0.1), transparent); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+                        <img src="assets/image/K cropped.png" width="100" style="opacity: 0.8;">
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">↓</div>
+        </div>
+
+        <div class="slide" id="stream">
+            <div class="slide-content reverse">
+                <div class="visual-side">
+                    <div class="ui-card-stack">
+                        <div class="ui-card" style="border-left: 3px solid var(--neon-cyan);">
+                            <h4 style="margin:0; color:white;">Meeting Ends</h4>
+                            <p style="font-size:12px; margin:5px 0;">Oracle generated action items.</p>
+                        </div>
+                        <div class="ui-card" style="border-left: 3px solid var(--primary);">
+                            <h4 style="margin:0; color:white;">Urgent Email</h4>
+                            <p style="font-size:12px; margin:5px 0;">Intent: Decision Required.</p>
+                        </div>
+                        <div class="ui-card">
+                            <h4 style="margin:0; color:white;">Slack Mention</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-side">
+                    <h2>The Unified Stream</h2>
+                    <p>Context switching kills productivity. We merge your scattered communication into one
+                        priority-based timeline. See what matters, when it matters.</p>
+                </div>
+            </div>
+            <div class="scroll-indicator">↓</div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-content">
+                <div class="text-side">
+                    <h2>The Vortex</h2>
+                    <p>Distracted? Don't switch tabs. Dump your random thoughts into the Vortex. We capture them
+                        instantly so you can stay in Deep Work.</p>
+                </div>
+                <div class="visual-side">
+                    <div class="vortex-visual">
+                        <div class="vortex-core"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">↓</div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-content1" style="flex-direction: column; text-align: center;">
+                <h2 style="margin-bottom: 10px;">How do you want to work?</h2>
+                <p style="margin-bottom: 50px;">Klarity adapts the interface to your role.</p>
+
+                <div class="choice-grid">
+                    <div class="choice-card" onclick="selectRole(this, 'intern')">
+                        <span style="font-size: 30px;">🚀</span>
+                        <h4 style="margin: 10px 0 0; color: white;">Startup Intern</h4>
+                        <span style="font-size: 12px; color: #888;">Balancing Chaos</span>
+                    </div>
+                    <div class="choice-card" onclick="selectRole(this, 'manager')">
+                        <span style="font-size: 30px;">👔</span>
+                        <h4 style="margin: 10px 0 0; color: white;">Product Manager</h4>
+                        <span style="font-size: 12px; color: #888;">Team Sync</span>
+                    </div>
+                    <div class="choice-card" onclick="selectRole(this, 'student')">
+                        <span style="font-size: 30px;">🎓</span>
+                        <h4 style="margin: 10px 0 0; color: white;">Student</h4>
+                        <span style="font-size: 12px; color: #888;">Deep Study</span>
+                    </div>
+                    <div class="choice-card" onclick="selectRole(this, 'dev')">
+                        <span style="font-size: 30px;">💻</span>
+                        <h4 style="margin: 10px 0 0; color: white;">Developer</h4>
+                        <span style="font-size: 12px; color: #888;">Flow State</span>
+                    </div>
+                </div>
+
+                <button class="cta-btn" onclick="finishOnboarding()"
+                    style="margin-top: 30px; opacity: 0.5; pointer-events: none;" id="finalBtn">Launch
+                    Workspace</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function selectRole(card, role) {
+            // Visual Selection
+            document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+
+            // Activate Button
+            const btn = document.getElementById('finalBtn');
+            btn.style.opacity = "1";
+            btn.style.pointerEvents = "all";
+            btn.innerText = "Launch as " + (role === 'intern' ? 'Intern' : 'User');
+        }
+
+        function finishOnboarding() {
+            // Fake loading effect
+            const btn = document.getElementById('finalBtn');
+            btn.innerText = "Configuring Stream...";
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 800);
+        }
+    </script>
+</body>
+
+</html>
